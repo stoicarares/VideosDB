@@ -1,18 +1,26 @@
 package main;
 
+import actor.Actor;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
+import entertainment.Command;
+import entertainment.Database;
+import entertainment.Favorite;
+import fileio.ActionInputData;
 import fileio.Input;
 import fileio.InputLoader;
 import fileio.Writer;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -70,7 +78,23 @@ public final class Main {
         Writer fileWriter = new Writer(filePath2);
         JSONArray arrayResult = new JSONArray();
 
+        Database.getDatabase().transferActors(input.getActors());
+        Database.getDatabase().transferMovies(input.getMovies());
+        Database.getDatabase().transferSerials(input.getSerials());
+        Database.getDatabase().transferUsers(input.getUsers());
         //TODO add here the entry point to your implementation
+
+        for (ActionInputData action:input.getCommands()) {
+            if (action.getActionType().equals("command")) {
+                Command command = Command.instantiation(action.getType(), action.getUsername(),
+                                                        action.getTitle(), action.getGrade(),
+                                                        action.getSeasonNumber());
+                String output = command.applyCommand();
+                JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+                        output);
+                arrayResult.add(jsonObject);
+            }
+        }
 
         fileWriter.closeJSON(arrayResult);
     }
