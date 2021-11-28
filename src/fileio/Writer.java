@@ -31,8 +31,7 @@ public final class Writer {
      * @return An JSON Object
      * @throws IOException in case of exceptions to reading / writing
      */
-    public JSONObject writeFile(final int id, final String field,
-                                final String message) throws IOException {
+    public JSONObject writeFile(final int id, final String message) throws IOException {
         JSONObject object = new JSONObject();
         object.put(Constants.ID_STRING, id);
         object.put(Constants.MESSAGE, message);
