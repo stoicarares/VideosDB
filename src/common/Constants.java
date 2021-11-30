@@ -74,5 +74,13 @@ public final class Constants {
     public static final int LARGE_TEST = 3;
     public static final int MAX_LENGTH = 50;
 
+
+
+
     // add any constants you think you may use
+    public static final int YEAR_FILTER = 0;
+    public static final int GENRE_FILTER = 1;
+    public static final int FIRST_GENRE = 0;
+    public static final int WORDS_FILTER = 2;
+    public static final int AWARDS_FILTER = 3;
 }

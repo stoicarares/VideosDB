@@ -105,4 +105,20 @@ public class Database {
             this.serials.add(newSerial);
         }
     }
+
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public List<Serial> getSerials() {
+        return serials;
+    }
 }

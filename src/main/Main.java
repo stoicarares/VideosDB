@@ -1,12 +1,11 @@
 package main;
 
 import actor.Actor;
+import actor.NumberOfRatings;
 import checker.Checkstyle;
 import checker.Checker;
 import common.Constants;
-import entertainment.Command;
-import entertainment.Database;
-import entertainment.Favorite;
+import entertainment.*;
 import fileio.ActionInputData;
 import fileio.Input;
 import fileio.InputLoader;
@@ -85,6 +84,7 @@ public final class Main {
         //TODO add here the entry point to your implementation
 
         for (ActionInputData action:input.getCommands()) {
+//            StringBuilder output;
             if (action.getActionType().equals("command")) {
                 Command command = Command.instantiation(action.getType(), action.getUsername(),
                                                         action.getTitle(), action.getGrade(),
@@ -93,7 +93,67 @@ public final class Main {
                 JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
                         output);
                 arrayResult.add(jsonObject);
+            } else if (action.getActionType().equals("query")) {
+                if (action.getObjectType().equals("users")) {
+                    QueryUser query = new NumberOfRatings(action.getObjectType(), action.getSortType(), action.getCriteria(), action.getNumber());
+                    StringBuilder output = query.applyQuery();
+                    JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+                            output.toString());
+                    arrayResult.add(jsonObject);
+                } else if (action.getObjectType().equals("actors"))  {
+                    if (action.getCriteria().equals("average")) {
+                        QueryActor query = new AverageActor(action.getObjectType(), action.getSortType(), action.getCriteria(), action.getNumber());
+                        StringBuilder output = query.applyQuery();
+                        JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+                                output.toString());
+                        arrayResult.add(jsonObject);
+                    } else if (action.getCriteria().equals("awards")) {
+                        QueryActor query = new AwardsActor(action.getObjectType(), action.getSortType(), action.getCriteria(), action.getNumber(), action.getFilters());
+                        StringBuilder output = query.applyQuery();
+                        JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+                                output.toString());
+                        arrayResult.add(jsonObject);
+                    } else {
+                        QueryActor query = new FilterDescriptionActors(action.getObjectType(), action.getSortType(), action.getCriteria(), action.getNumber(), action.getFilters());
+                        StringBuilder output = query.applyQuery();
+                        JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+                                output.toString());
+                        arrayResult.add(jsonObject);
+                    }
+                } else if (action.getCriteria().equals("favorite")) {
+//                    if (action.getObjectType().equals("movies")) {
+                    QueryVideo query;
+                    query = new FavoriteVideo(action.getObjectType(), action.getSortType(), action.getCriteria(), action.getNumber(), action.getFilters());
+                    StringBuilder output = query.applyQuery();
+                    JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+                            output.toString());
+                    arrayResult.add(jsonObject);
+                } else if (action.getCriteria().equals("ratings")) {
+                    QueryVideo query;
+                    query = new RatingVideo(action.getObjectType(), action.getSortType(), action.getCriteria(), action.getNumber(), action.getFilters());
+                    StringBuilder output = query.applyQuery();
+                    JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+                            output.toString());
+                    arrayResult.add(jsonObject);
+                } else if (action.getCriteria().equals("longest")) {
+                    QueryVideo query;
+                    query = new LongestVideo(action.getObjectType(), action.getSortType(), action.getCriteria(), action.getNumber(), action.getFilters());
+                    StringBuilder output = query.applyQuery();
+                    JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+                            output.toString());
+                    arrayResult.add(jsonObject);
+                } else if (action.getCriteria().equals("most_viewed")) {
+                    QueryVideo query;
+                    query = new MostViewedVideo(action.getObjectType(), action.getSortType(), action.getCriteria(), action.getNumber(), action.getFilters());
+                    StringBuilder output = query.applyQuery();
+                    JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+                            output.toString());
+                    arrayResult.add(jsonObject);
+                }
             }
+//            JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+//                    output.toString());
+//            arrayResult.add(jsonObject);
         }
 
         fileWriter.closeJSON(arrayResult);
