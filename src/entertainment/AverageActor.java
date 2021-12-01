@@ -33,7 +33,7 @@ public class AverageActor extends QueryActor {
                     seasonRating += rating;
                 }
                 if (seasonRating != 0)
-                    finalRating += seasonRating / season.getRatings().size();
+                    finalRating += (seasonRating / season.getRatings().size());
             }
             if (serial.getNumberOfSeasons() != 0)
                 finalRating /= serial.getNumberOfSeasons();
@@ -73,17 +73,17 @@ public class AverageActor extends QueryActor {
         Map<String, Double> ratedVideoPlayed = new HashMap<>();
 
         for (Actor actor : Database.getDatabase().getActors()) {
+            int contor = 0;
+            double sumOfRatings = 0;
             for (String video : actor.getFilmography()) {
-                int contor = 0;
-                double sumOfRatings = 0;
                 if (ratingsMap.containsKey(video)) {
                     contor++;
                     sumOfRatings += ratingsMap.get(video);
                 }
-                if (contor != 0) {
-                    double finalRating = sumOfRatings / contor;
-                    ratedVideoPlayed.put(actor.getName(), finalRating);
                 }
+            if (contor != 0) {
+                double finalRating = sumOfRatings / contor;
+                ratedVideoPlayed.put(actor.getName(), finalRating);
             }
         }
 
@@ -91,11 +91,12 @@ public class AverageActor extends QueryActor {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Query result: [");
-//        for (User user : sortedUsers) {
+
+//        System.out.println(sortedList.toString());
         int number = Math.min(this.getNumber(), sortedList.size());
         for (int i = 0; i < number; i++) {
             if (sortedList.get(i).getValue() != 0) {
-                if (i != sortedList.size() - 1)
+                if (i != (number - 1))
                     stringBuilder.append(sortedList.get(i).getKey()).append(", ");
                 else
                     stringBuilder.append(sortedList.get(i).getKey());

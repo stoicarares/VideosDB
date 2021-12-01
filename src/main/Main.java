@@ -150,6 +150,30 @@ public final class Main {
                             output.toString());
                     arrayResult.add(jsonObject);
                 }
+            } else {
+                Recommandation recommandation;
+                StringBuilder output = null;
+                if (action.getType().equals("standard")) {
+                    recommandation = new StandardRecommendation(action.getType(), action.getUsername());
+                    output = recommandation.applyRecommendation();
+                } else if (action.getType().equals("best_unseen")) {
+                    recommandation = new BestUnseenRecommendation(action.getType(), action.getUsername());
+                    output = recommandation.applyRecommendation();
+                } else if (action.getType().equals("popular")) {
+                    recommandation = new PopularRecommendation(action.getType(), action.getUsername());
+                    output = recommandation.applyRecommendation();
+                } else if (action.getType().equals("favorite")) {
+                    recommandation = new FavoriteRecommendation(action.getType(), action.getUsername());
+                    output = recommandation.applyRecommendation();
+                } else {
+                    recommandation = new SearchRecommendation(action.getType(), action.getUsername(), action.getGenre());
+                    output = recommandation.applyRecommendation();
+                }
+                assert output != null;
+                JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
+                        output.toString());
+                arrayResult.add(jsonObject);
+
             }
 //            JSONObject jsonObject = fileWriter.writeFile(action.getActionId(),
 //                    output.toString());

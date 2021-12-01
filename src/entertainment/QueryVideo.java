@@ -7,7 +7,7 @@ import java.util.Map;
 
 import static common.Constants.YEAR_FILTER;
 import static common.Constants.GENRE_FILTER;
-import static common.Constants.FIRST_GENRE;
+import static common.Constants.FIRST_FILTER;
 
 public abstract class QueryVideo extends Query {
     private List<List<String>> filters;
@@ -22,27 +22,58 @@ public abstract class QueryVideo extends Query {
 //    @Override
     public abstract StringBuilder applyQuery();
 
+//    public boolean fitsFilters(int year, ArrayList<String> genres) {
+//        int ok = 1;
+//
+////        if (this.getFilters().get(YEAR_FILTER) != null && this.getFilters().get(YEAR_FILTER).get(FIRST_GENRE) != null &&
+////                Integer.parseInt(this.getFilters().get(YEAR_FILTER).get(FIRST_GENRE)) == year) {
+//        if (this.getFilters().get(YEAR_FILTER) != null) {
+//            if (this.getFilters().get(YEAR_FILTER).get(FIRST_GENRE) == null) {
+//                ok  = 0;
+//            } else if (Integer.parseInt(this.getFilters().get(YEAR_FILTER).get(FIRST_GENRE)) == year)
+//
+//            if (ok == 0)
+//                return false;
+//        }
+//
+//
+//        if (this.getFilters().get(GENRE_FILTER) == null)
+//            return true;
+//
+//        for (String genre : genres) {
+//            if (this.getFilters().get(GENRE_FILTER).get(FIRST_GENRE) != null)
+//                if (this.getFilters().get(GENRE_FILTER).get(FIRST_GENRE).equals(genre))
+//                    return true;
+//        }
+//
+//        return false;
+//    }
+
     public boolean fitsFilters(int year, ArrayList<String> genres) {
-        int ok = 0;
-
-        if (this.getFilters().get(YEAR_FILTER) != null &&
-                Integer.parseInt(this.getFilters().get(YEAR_FILTER).get(FIRST_GENRE)) == year)
-            ok  = 1;
-
-        if (ok == 0)
-            return false;
-
-        if (this.getFilters().get(GENRE_FILTER) == null)
+        if (this.getFilters().get(YEAR_FILTER).get(FIRST_FILTER) == null &&
+                this.getFilters().get(GENRE_FILTER).get(FIRST_FILTER) == null)
             return true;
 
-        for (String genre : genres) {
-            if (this.getFilters().get(GENRE_FILTER).get(FIRST_GENRE).equals(genre))
-                return true;
+        int ok = 0;
+
+        if (this.getFilters().get(YEAR_FILTER).get(FIRST_FILTER) != null) {
+            if (year != Integer.parseInt(this.getFilters().get(YEAR_FILTER).get(FIRST_FILTER)))
+                return false;
+            ok = 1;
         }
+
+        if (this.getFilters().get(GENRE_FILTER).get(FIRST_FILTER) == null && ok == 0)
+            return false;
+
+        if (this.getFilters().get(GENRE_FILTER).get(FIRST_FILTER) == null && ok == 1)
+            return true;
+
+        for (String genre : genres)
+            if (genre.equals(this.getFilters().get(GENRE_FILTER).get(FIRST_FILTER)))
+                return true;
 
         return false;
     }
-
     public List<Map.Entry<String, Integer>> mysort(Map<String, Integer> map, String sortType) {
         List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
         list.sort((o1, o2) -> {

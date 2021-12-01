@@ -14,7 +14,7 @@ public class View extends Command {
             return null;
         }
 
-        if (!user.getHistory().containsKey(this.getUsername())) {
+        if (!user.getHistory().containsKey(this.getTitle())) {
             user.getHistory().put(this.getTitle(), 1);
         } else {
             user.getHistory().put(this.getTitle(), user.getHistory().get(this.getTitle()) + 1);
