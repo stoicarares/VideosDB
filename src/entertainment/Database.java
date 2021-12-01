@@ -55,6 +55,14 @@ public class Database {
         return null;
     }
 
+    public Serial findSerialByName(String name) {
+        for (Serial serial : this.serials) {
+            if (serial.getTitle().equals(name))
+                return serial;
+        }
+        return null;
+    }
+
     public void setMovieRating(String name, double rating) {
         for (Movie movie : this.movies) {
             if (movie.getTitle().equals(name)) {
@@ -73,6 +81,7 @@ public class Database {
     }
 
     public void transferActors(List<ActorInputData> inputActors) {
+        this.actors.clear();
         for (ActorInputData actor:inputActors) {
             Actor newActor = new Actor(actor.getName(), actor.getCareerDescription(),
                                         actor.getFilmography(), actor.getAwards());
@@ -81,6 +90,7 @@ public class Database {
     }
 
     public void transferUsers(List<UserInputData> inputUsers) {
+        this.users.clear();
         for (UserInputData user:inputUsers) {
             User newUser = new User(user.getUsername(), user.getSubscriptionType(),
                                     user.getHistory(), user.getFavoriteMovies());
@@ -89,6 +99,7 @@ public class Database {
     }
 
     public void transferMovies(List<MovieInputData> inputMovies) {
+        this.movies.clear();
         for (MovieInputData movie:inputMovies) {
             Movie newMovie = new Movie(movie.getTitle(), movie.getYear(), movie.getGenres(), movie.getDuration());
 
@@ -97,6 +108,7 @@ public class Database {
     }
 
     public void transferSerials(List<SerialInputData> inputSerials) {
+        this.serials.clear();
         for (SerialInputData serial:inputSerials) {
             Serial newSerial = new Serial(serial.getTitle(), serial.getYear(),
                                             serial.getGenres(), serial.getNumberSeason(),

@@ -80,7 +80,7 @@ public final class Constants {
     // add any constants you think you may use
     public static final int YEAR_FILTER = 0;
     public static final int GENRE_FILTER = 1;
-    public static final int FIRST_GENRE = 0;
+    public static final int FIRST_FILTER = 0;
     public static final int WORDS_FILTER = 2;
     public static final int AWARDS_FILTER = 3;
 }

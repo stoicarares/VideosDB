@@ -44,7 +44,7 @@ public class LongestVideo extends QueryVideo {
         int number = Math.min(this.getNumber(), sortedList.size());
         for (int i = 0; i < number; i++) {
             if (sortedList.get(i).getValue() != 0) {
-                if (i != sortedList.size() - 1)
+                if (i != (number - 1))
                     stringBuilder.append(sortedList.get(i).getKey()).append(", ");
                 else
                     stringBuilder.append(sortedList.get(i).getKey());

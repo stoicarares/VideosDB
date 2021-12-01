@@ -3,10 +3,7 @@ package entertainment;
 import actor.Actor;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static common.Constants.WORDS_FILTER;
@@ -26,7 +23,9 @@ public class FilterDescriptionActors extends QueryActor {
         for (Actor actor : Database.getDatabase().getActors()) {
             int count = 0;
             for (String word : this.filters.get(WORDS_FILTER)) {
-                boolean isContained = Pattern.compile(Pattern.quote(word), Pattern.CASE_INSENSITIVE).matcher(actor.getCareerDescription()).find();
+                boolean isContained = Arrays.asList(actor.getCareerDescription().toLowerCase(Locale.ROOT).split("\\W+")).contains(word.toLowerCase(Locale.ROOT));
+//                boolean isContained = false;
+
                 if (isContained) {
                     count++;
                 }

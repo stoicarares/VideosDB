@@ -21,7 +21,7 @@ public class Rating extends Command {
             return null;
         }
         if (!user.getHistory().containsKey(this.getTitle())) {
-            return ("error -> " + this.getTitle() + " is not seen!");
+            return ("error -> " + this.getTitle() + " is not seen");
         }
 
         if (user.getRatedMovies().contains(this.getTitle()) && this.seasonNumber == 0) {

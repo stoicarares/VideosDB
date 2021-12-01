@@ -68,7 +68,7 @@ public class AwardsActor extends QueryActor {
     @Override
     public StringBuilder applyQuery() {
         Map<String, Integer> awardsMap = checkAwards();
-        System.out.println(awardsMap.toString());
+//        System.out.println(awardsMap.toString());
 //        for (Actor actor : Database.getDatabase().getActors()) {
 //            System.out.println(actor.getName() + "  -> " + getNumberOfAwards(actor));
 //        }
