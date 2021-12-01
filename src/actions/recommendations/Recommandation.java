@@ -1,17 +1,30 @@
-package entertainment;
+package actions.recommendations;
+
+import entertainment.Movie;
+import entertainment.Season;
+import entertainment.Serial;
 
 public abstract class Recommandation {
-    private String subscriptionType;
-    private String targetUser;
+    private final String subscriptionType;
+    private final String targetUser;
 
     public Recommandation(final String type, final String targetUser) {
         this.subscriptionType = type;
         this.targetUser = targetUser;
     }
 
+    /**
+     * Abstract method for apply the given recommendation.
+     * @return The string resulted due to the action
+     */
     public abstract StringBuilder applyRecommendation();
 
-    public double calculateMovieRating(Movie movie) {
+    /**
+     * Method for calculating a movie's rating
+     * @param movie The movie to calculate rating for
+     * @return A double value meaning the rating
+     */
+    public double calculateMovieRating(final Movie movie) {
         double finalRating = 0;
         double sum = 0;
         for (Double rating : movie.getRatings()) {
@@ -25,35 +38,34 @@ public abstract class Recommandation {
         return finalRating;
     }
 
-    public double calculateSerialRating(Serial serial) {
+    /**
+     * Method for calculating a serial's rating
+     * @param serial The serial to calculate rating for
+     * @return A double value meaning the rating
+     */
+    public double calculateSerialRating(final Serial serial) {
         double finalRating = 0;
         for (Season season : serial.getSeasons()) {
             double seasonRating = 0;
             for (Double rating : season.getRatings()) {
                 seasonRating += rating;
             }
-            if (seasonRating != 0)
+            if (seasonRating != 0) {
                 finalRating += seasonRating / season.getRatings().size();
+            }
         }
-        if (serial.getNumberOfSeasons() != 0)
+        if (serial.getNumberOfSeasons() != 0) {
             finalRating /= serial.getNumberOfSeasons();
+        }
 
         return finalRating;
     }
 
-    public String getType() {
+    public final String getType() {
         return subscriptionType;
     }
 
-    public String getTargetUser() {
+    public final String getTargetUser() {
         return targetUser;
-    }
-
-    public void setType(String type) {
-        this.subscriptionType = type;
-    }
-
-    public void setTargetUser(String targetUser) {
-        this.targetUser = targetUser;
     }
 }

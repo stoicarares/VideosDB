@@ -1,17 +1,18 @@
-package entertainment;
+package actions.commands;
 
-import fileio.Writer;
-import net.sf.json.JSONArray;
+import entertainment.Database;
+import entertainment.User;
 
-public class Favorite extends Command {
+public final class Favorite extends Command {
 
     public Favorite(final String type, final String username, final String title) {
         super(type, username, title);
     }
 
     @Override
-    public String applyCommand() {
+    public StringBuilder applyCommand() {
         User user = Database.getDatabase().findUserByName(this.getUsername());
+        StringBuilder output = new StringBuilder();
 
         if (user == null) {
             System.out.println("Invalid user!");
@@ -19,17 +20,21 @@ public class Favorite extends Command {
         }
 
         if (!user.getHistory().containsKey(this.getTitle())) {
-            return ("error -> " + this.getTitle() + " is not seen");
+            output.append("error -> ").append(this.getTitle()).append(" is not seen");
 
         } else {
             if (user.getFavoriteMovies().contains(this.getTitle())) {
-                return ("error -> " + this.getTitle() + " is already in favourite list");
-
+                output.append("error -> ").append(this.getTitle());
+                output.append(" is already in favourite list");
             } else {
                 user.getFavoriteMovies().add(this.getTitle());
-                return ("success -> " + this.getTitle() + " was added as favourite");
+                output.append("success -> ").append(this.getTitle());
+                output.append(" was added as favourite");
             }
+
         }
+
+        return output;
     }
 
 

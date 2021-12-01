@@ -1,13 +1,17 @@
-package entertainment;
+package actions.commands;
 
-public class View extends Command {
+import entertainment.Database;
+import entertainment.User;
+
+public final class View extends Command {
     public View(final String type, final String username, final String title) {
         super(type, username, title);
     }
 
     @Override
-    public String applyCommand() {
+    public StringBuilder applyCommand() {
         User user = Database.getDatabase().findUserByName(this.getUsername());
+        StringBuilder output = new StringBuilder();
 
         if (user == null) {
             System.out.println("Invalid user!");
@@ -20,6 +24,10 @@ public class View extends Command {
             user.getHistory().put(this.getTitle(), user.getHistory().get(this.getTitle()) + 1);
         }
 
-        return ("success -> " + this.getTitle() + " was viewed with total views of " + user.getHistory().get(this.getTitle()));
+        output.append("success -> ").append(this.getTitle());
+        output.append(" was viewed with total views of ");
+        output.append(user.getHistory().get(this.getTitle()));
+
+        return output;
     }
 }

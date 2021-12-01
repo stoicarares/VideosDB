@@ -1,9 +1,12 @@
-package entertainment;
+package actions.commands;
 
-public class Rating extends Command {
+import entertainment.Database;
+import entertainment.User;
 
-    private double grade;
-    private int seasonNumber;
+public final class Rating extends Command {
+
+    private final double grade;
+    private final int seasonNumber;
 
     public Rating(final String type, final String username,
                   final String title, final double grade, final int seazonNumber) {
@@ -13,23 +16,31 @@ public class Rating extends Command {
     }
 
     @Override
-    public String applyCommand() {
+    public StringBuilder applyCommand() {
         User user = Database.getDatabase().findUserByName(this.getUsername());
+        StringBuilder output = new StringBuilder();
 
         if (user == null) {
             System.out.println("Invalid user!");
             return null;
         }
         if (!user.getHistory().containsKey(this.getTitle())) {
-            return ("error -> " + this.getTitle() + " is not seen");
+            output.append("error -> ").append(this.getTitle()).append(" is not seen");
+
+            return output;
         }
 
         if (user.getRatedMovies().contains(this.getTitle()) && this.seasonNumber == 0) {
-            return ("error -> " + this.getTitle() + " has been already rated");
+            output.append("error -> ").append(this.getTitle()).append(" has been already rated");
+
+            return output;
         }
 
-        if (user.getRatedSerials().contains(this.getTitle() + seasonNumber) && this.seasonNumber != 0) {
-            return ("error -> " + this.getTitle() + " has been already rated");
+        if (user.getRatedSerials().contains(this.getTitle() + seasonNumber)
+                && this.seasonNumber != 0) {
+            output.append("error -> ").append(this.getTitle()).append(" has been already rated");
+
+            return output;
         }
 
 
@@ -41,6 +52,13 @@ public class Rating extends Command {
             user.getRatedSerials().add(this.getTitle() + this.seasonNumber);
         }
 
-        return ("success -> " + this.getTitle() + " was rated with " + this.grade + " by " + user.getUsername());
+        output.append("success -> ").append(this.getTitle()).append(" was rated with ");
+        output.append(this.grade).append(" by ").append(user.getUsername());
+
+        return output;
+    }
+
+    public double getGrade() {
+        return grade;
     }
 }
